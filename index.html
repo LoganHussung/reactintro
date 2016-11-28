@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hello React</title>
+  <link rel="stylesheet" href="Images/index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="node_modules/react/dist/react-with-addons.min.js"></script>
+  <script src="node_modules/react-dom/dist/react-dom.min.js"></script>
+  <script src="node_modules/babel-standalone/babel.min.js"></script>
+  <script type="text/javascript" src="src/index.js"></script>
+  <script type="text/babel">
+
+    //Third Component
+    var Menu = React.createClass({
+  getInitialState() {
+    return { /* initial state */ };
+  },
+  slideToggle: function() {
+    console.log('SLIDE THAT TOGGLE');
+  },
+  style: {
+    button: {
+      color: 'whitesmoke',
+      borderRadius: 5,
+      fontSize: '16px',
+      padding: 5,
+      border: '3px groove #ccc',
+      backgroundColor: '#1560fb'
+    }
+  },
+  render: function() {
+    return (
+      <div>
+        Enjoy {this.props.title}
+        <List items={this.props.inventory} />
+      </div>
+    )
+  }
+});
+    // Second Component
+    var List = React.createClass({
+  render: function() {
+    return (
+      <ul>
+        {this.props.items.map(function(item){
+          return ( <li>{item}</li> )
+        })}
+      </ul>
+    )
+  }
+});
+    // First Component
+    /// Create a variable for the the restaraunt
+    var App = React.createClass({
+      // Set the initial state so that it is not 'null', which causes :(
+      getInitialState: function() {
+        return {
+          query: ''
+        }
+      },
+      style: {
+        searchContainer: {
+          border: '1px solid #efefef',
+          padding: '1rem',
+          margin: '1rem'
+        }
+      },
+      onNewSearchValue: function(e) { // Search input handler
+        this.setState({
+            query: e.target.value
+        })
+      },
+      onSearchButtonClick: function() { // Button click handler
+        console.log('You searched for ', this.state.query);
+      },
+      isIndexMatch: function(item) { // Search function
+        return item.toLowerCase().indexOf(this.state.query) > -1;
+      },
+      render: function() {
+        return (
+          <div>
+            <h1>Welcome to {this.props.name}! </h1>
+            <div style={this.style.searchContainer}>
+              <input
+                role="search"
+                type="text"
+                placeholder="Find a Meal"
+                onChange={this.onNewSearchValue.bind(this)} />
+              <button
+                onClick={this.onSearchButtonClick}>Search</button>
+            </div>
+            <Menu title="Breakfast" inventory={
+              this.props.inventory.slice(0,5).filter(this.isIndexMatch)
+              } />
+              <Menu title="Lunch" inventory={
+              this.props.inventory.slice(5,10).filter(this.isIndexMatch)
+              } />
+                <Menu title="Dinner" inventory={
+              this.props.inventory.slice(10,15).filter(this.isIndexMatch)
+              } />
+                <Menu title="Dessert" inventory={
+              this.props.inventory.slice(15,20).filter(this.isIndexMatch)
+              } />
+          </div>
+        )
+      }
+    });
+    // Bootstrapping
+    ReactDOM.render(<App name="The Console Cafe" inventory={[
+      'Omlete',
+      'Pancakes',
+      'French Toast',
+      'Southern Fried Chicken Biscut Brekfast',
+      'Mammoth Muffin',
+      'Chicken Pot Pie',
+      'Cheeseburger',
+      'Grill Cheese and Tomato Soup',
+      'Chicken Ceasar Salad',
+      'Wrapping Granny',
+      'Steak And Eggs',
+      'New York Strip',
+      'Mammoth Burger',
+      'Surf and Turf',
+      'King Crab Legs',
+      'Cheesecake',
+      'Flan',
+      'Creme Breu Le',
+      'Pinnaple Upside Down Cake',
+      'Better than Sex Cake',
+    ]} />, document.getElementById('root'));
+  </script>
+</body>
+</html>
