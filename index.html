@@ -72,7 +72,7 @@
       },
       onNewSearchValue: function(e) { // Search input handler
         this.setState({
-            query: e.target.value
+            query: e.target.value.toLowerCase()
         })
       },
       onSearchButtonClick: function() { // Button click handler
